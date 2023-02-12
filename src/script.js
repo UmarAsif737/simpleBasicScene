@@ -12,6 +12,9 @@ const mesh = new THREE.Mesh(geometry, material);
 mesh.position.x = 0.7;
 mesh.position.y = -0.6;
 mesh.position.z = 1;
+mesh.scale.set(2, 0.5, 0.5);
+mesh.rotation.reorder("YXZ");
+mesh.rotation.set(Math.PI / 4, Math.PI / 4, 0);
 scene.add(mesh);
 
 console.log(mesh.position.length());
@@ -33,5 +36,6 @@ scene.add(camera);
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
+camera.lookAt(mesh.position);
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
