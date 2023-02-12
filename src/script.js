@@ -9,7 +9,12 @@ const scene = new THREE.Scene();
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: "#ff0000" });
 const mesh = new THREE.Mesh(geometry, material);
+mesh.position.x = 0.7;
+mesh.position.y = -0.6;
+mesh.position.z = 1;
 scene.add(mesh);
+
+console.log(mesh.position.length());
 
 // Sizes
 const sizes = {
