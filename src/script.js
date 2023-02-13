@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import gsap from "gsap";
+
 console.log(THREE);
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -38,10 +40,17 @@ camera.lookAt(mesh.position);
 renderer.setSize(sizes.width, sizes.height);
 const clock = new THREE.Clock();
 
+let loopCount = 0;
 const animatedThing = () => {
   const elapsed = clock.getElapsedTime();
-  mesh.position.set(Math.sin(elapsed), Math.cos(elapsed), mesh.position.z);
+  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 1, x: 1.5 });
+  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 2, y: 1.5 });
+  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 3, x: -1.5 });
+  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 4, y: -1.5 });
+  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 5, x: 1.5 });
+
   renderer.render(scene, camera);
+  loopCount++;
   window.requestAnimationFrame(animatedThing);
 };
 animatedThing();
