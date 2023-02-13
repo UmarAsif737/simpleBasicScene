@@ -36,4 +36,14 @@ const renderer = new THREE.WebGLRenderer({
 });
 camera.lookAt(mesh.position);
 renderer.setSize(sizes.width, sizes.height);
-renderer.render(scene, camera);
+
+const animatedThing = () => {
+  mesh.rotation.set(
+    mesh.rotation.x + 0.01,
+    mesh.rotation.y + 0.01,
+    mesh.rotation.z + 0.01
+  );
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(animatedThing);
+};
+animatedThing();
