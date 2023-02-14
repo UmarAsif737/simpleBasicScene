@@ -22,9 +22,12 @@ window.addEventListener("mousemove", (e) => {
 const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
+const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff]; // an array of colors for each face
+const materials = colors.map((color) => new THREE.MeshBasicMaterial({ color })); // create an array of materials with each color
+
 // Object
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: "#ff0000" });
+const material = materials;
 const mesh = new THREE.Mesh(geometry, material);
 // mesh.position.x = 0.7;
 // mesh.position.y = -0.6;
