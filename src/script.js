@@ -1,10 +1,24 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
-console.log(THREE);
+const cursor = {
+  x: 0,
+  y: 0,
+};
+// Sizes
+const sizes = {
+  width: 800,
+  height: 600,
+};
+
+window.addEventListener("mousemove", (e) => {
+  console.log(e.clientX, e.clientY);
+  cursor.x = e.clientX / sizes.width - 0.5;
+  cursor.y = e.clientY / sizes.height - 0.5;
+});
+
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
-
 const scene = new THREE.Scene();
 
 // Object
@@ -19,29 +33,23 @@ const mesh = new THREE.Mesh(geometry, material);
 // mesh.rotation.set(Math.PI / 4, Math.PI / 4, 0);
 scene.add(mesh);
 
-// Sizes
-const sizes = {
-  width: 800,
-  height: 600,
-};
-
 // Camera
-// const camera = new THREE.PerspectiveCamera(
-//   75,
-//   sizes.width / sizes.height,
-//   0.1,
-//   100
-// );
-
-const aspectRatio = sizes.width / sizes.height;
-const camera = new THREE.OrthographicCamera(
-  -2 * aspectRatio,
-  2 * aspectRatio,
-  2,
-  -2,
+const camera = new THREE.PerspectiveCamera(
+  75,
+  sizes.width / sizes.height,
   0.1,
   100
 );
+
+const aspectRatio = sizes.width / sizes.height;
+// const camera = new THREE.OrthographicCamera(
+//   -2 * aspectRatio,
+//   2 * aspectRatio,
+//   2,
+//   -2,
+//   0.1,
+//   100
+// );
 
 camera.position.z = 3;
 // camera.position.x = 1;
@@ -55,7 +63,7 @@ const renderer = new THREE.WebGLRenderer({
 camera.lookAt(mesh.position);
 renderer.setSize(sizes.width, sizes.height);
 const clock = new THREE.Clock();
-mesh.rotation.x = 0.5;
+// mesh.rotation.x = 0.5;
 let loopCount = 0;
 const animatedThing = () => {
   const elapsed = clock.getElapsedTime();
@@ -65,7 +73,10 @@ const animatedThing = () => {
   // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 4, y: -1.5 });
   // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 5, x: 1.5 });
 
-  mesh.rotation.y = elapsed;
+  // mesh.rotation.y = elapsed;
+  mesh.position.x = cursor.x * 3;
+  mesh.position.y = cursor.y * -3;
+  camera.lookAt(mesh.position);
   renderer.render(scene, camera);
   loopCount++;
   window.requestAnimationFrame(animatedThing);
