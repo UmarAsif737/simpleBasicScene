@@ -29,10 +29,18 @@ const materials = colors.map((color) => new THREE.MeshBasicMaterial({ color }));
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = materials;
 
-const positionArray = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0]);
-const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
 const geometry2 = new THREE.BufferGeometry();
-geometry2.setAttribute("position", positionAttribute);
+
+// Create 50 triangles (450 values)
+const count = 500;
+const positionsArray = new Float32Array(count * 3 * 3);
+for (let i = 0; i < count * 3 * 3; i++) {
+  positionsArray[i] = (Math.random() - 0.5) * 4;
+}
+
+// Create the attribute and name it 'position'
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
+geometry2.setAttribute("position", positionsAttribute);
 const material2 = new THREE.MeshBasicMaterial({
   color: 0xffffff,
   wireframe: true,
