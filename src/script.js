@@ -65,8 +65,10 @@ camera.lookAt(mesh.position);
 renderer.setSize(sizes.width, sizes.height);
 const clock = new THREE.Clock();
 const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+
 // mesh.rotation.x = 0.5;
-let loopCount = 0;
+// let loopCount = 0;
 const animatedThing = () => {
   const elapsed = clock.getElapsedTime();
   // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 1, x: 1.5 });
@@ -81,7 +83,8 @@ const animatedThing = () => {
   // camera.position.y = cursor.y * -5;
   // camera.lookAt(mesh.position);
   renderer.render(scene, camera);
-  loopCount++;
+  // loopCount++;
+  controls.update();
   window.requestAnimationFrame(animatedThing);
 };
 animatedThing();
