@@ -43,7 +43,7 @@ const camera = new THREE.OrthographicCamera(
   100
 );
 
-camera.position.z = 3.5;
+camera.position.z = 3;
 // camera.position.x = 1;
 // camera.position.y = 1;
 scene.add(camera);
@@ -55,16 +55,17 @@ const renderer = new THREE.WebGLRenderer({
 camera.lookAt(mesh.position);
 renderer.setSize(sizes.width, sizes.height);
 const clock = new THREE.Clock();
-
+mesh.rotation.x = 0.5;
 let loopCount = 0;
 const animatedThing = () => {
   const elapsed = clock.getElapsedTime();
-  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 1, x: 1.5 });
-  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 2, y: 1.5 });
-  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 3, x: -1.5 });
-  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 4, y: -1.5 });
-  gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 5, x: 1.5 });
+  // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 1, x: 1.5 });
+  // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 2, y: 1.5 });
+  // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 3, x: -1.5 });
+  // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 4, y: -1.5 });
+  // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 5, x: 1.5 });
 
+  mesh.rotation.y = elapsed;
   renderer.render(scene, camera);
   loopCount++;
   window.requestAnimationFrame(animatedThing);
