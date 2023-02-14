@@ -74,8 +74,9 @@ const animatedThing = () => {
   // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 5, x: 1.5 });
 
   // mesh.rotation.y = elapsed;
-  mesh.position.x = cursor.x * 3;
-  mesh.position.y = cursor.y * -3;
+  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
+  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * -3;
+  camera.position.y = cursor.y * -5;
   camera.lookAt(mesh.position);
   renderer.render(scene, camera);
   loopCount++;
