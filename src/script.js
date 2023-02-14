@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import gsap from "gsap";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const cursor = {
   x: 0,
@@ -63,6 +64,7 @@ const renderer = new THREE.WebGLRenderer({
 camera.lookAt(mesh.position);
 renderer.setSize(sizes.width, sizes.height);
 const clock = new THREE.Clock();
+const controls = new OrbitControls(camera, canvas);
 // mesh.rotation.x = 0.5;
 let loopCount = 0;
 const animatedThing = () => {
@@ -74,10 +76,10 @@ const animatedThing = () => {
   // gsap.to(mesh.position, { duration: 1, delay: loopCount * 4 + 5, x: 1.5 });
 
   // mesh.rotation.y = elapsed;
-  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
-  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * -3;
-  camera.position.y = cursor.y * -5;
-  camera.lookAt(mesh.position);
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
+  // camera.position.y = cursor.y * -5;
+  // camera.lookAt(mesh.position);
   renderer.render(scene, camera);
   loopCount++;
   window.requestAnimationFrame(animatedThing);
