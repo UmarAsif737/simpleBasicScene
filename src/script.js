@@ -28,7 +28,16 @@ const materials = colors.map((color) => new THREE.MeshBasicMaterial({ color }));
 // Object
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = materials;
-const mesh = new THREE.Mesh(geometry, material);
+
+const positionArray = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0]);
+const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
+const geometry2 = new THREE.BufferGeometry();
+geometry2.setAttribute("position", positionAttribute);
+const material2 = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  wireframe: true,
+});
+const mesh = new THREE.Mesh(geometry2, material2);
 // mesh.position.x = 0.7;
 // mesh.position.y = -0.6;
 // mesh.position.z = 1;
