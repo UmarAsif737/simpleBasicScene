@@ -45,7 +45,7 @@ const material2 = new THREE.MeshBasicMaterial({
   color: 0xffffff,
   wireframe: true,
 });
-const mesh = new THREE.Mesh(geometry2, material2);
+const mesh = new THREE.Mesh(geometry, material);
 // mesh.position.x = 0.7;
 // mesh.position.y = -0.6;
 // mesh.position.z = 1;
