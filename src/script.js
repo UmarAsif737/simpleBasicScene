@@ -1,6 +1,9 @@
 import * as THREE from "three";
 import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import * as lil from "lil-gui";
+
+const gui = new lil.GUI();
 
 const cursor = {
   x: 0,
@@ -54,6 +57,14 @@ const mesh = new THREE.Mesh(geometry, material);
 // mesh.rotation.set(Math.PI / 4, Math.PI / 4, 0);
 scene.add(mesh);
 
+gui.add(mesh.position, "y", -3, 3, 0.01).name("elevation");
+gui.add(mesh.position, "x", -3, 3, 0.01).name("Horizontal");
+gui.add(mesh.position, "z", -3, 3, 0.01).name("in and out");
+gui.add(mesh, "visible");
+gui.add(material, "wireframe");
+colors.map((color, i) =>
+  gui.addColor(mesh.material[i], "color").name(`face ${i + 1}`)
+);
 // Camera
 const camera = new THREE.PerspectiveCamera(
   75,
