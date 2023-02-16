@@ -40,12 +40,8 @@ const positionsArray = new Float32Array(count * 3 * 3);
 for (let i = 0; i < count * 3 * 3; i++) {
   positionsArray[i] = (Math.random() - 0.5) * 4;
 }
-const image = new Image();
-const texture = new THREE.Texture(image);
-image.addEventListener("load", () => {
-  texture.needsUpdate = true;
-});
-image.src = "/textures/door/color.jpg";
+const textureLoader = new THREE.TextureLoader();
+const texture = textureLoader.load("/textures/door/color.jpg");
 
 // Create the attribute and name it 'position'
 const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
