@@ -40,14 +40,42 @@ const positionsArray = new Float32Array(count * 3 * 3);
 for (let i = 0; i < count * 3 * 3; i++) {
   positionsArray[i] = (Math.random() - 0.5) * 4;
 }
-const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load("/textures/door/color.jpg");
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onStart = () => {
+  console.log("loading started");
+};
+loadingManager.onLoad = () => {
+  console.log("loading finished");
+};
+loadingManager.onProgress = () => {
+  console.log("loading progressing");
+};
+loadingManager.onError = () => {
+  console.log("loading error");
+};
+
+const textureLoader = new THREE.TextureLoader(loadingManager);
+// ...
+
+const colorTexture = textureLoader.load("/textures/door/color.jpg");
+
+colorTexture.rotation = Math.PI * 0.25;
+colorTexture.center.x = 0.5;
+colorTexture.center.y = 0.5;
+const alphaTexture = textureLoader.load("/textures/door/alpha.jpg");
+const heightTexture = textureLoader.load("/textures/door/height.jpg");
+const normalTexture = textureLoader.load("/textures/door/normal.jpg");
+const ambientOcclusionTexture = textureLoader.load(
+  "/textures/door/ambientOcclusion.jpg"
+);
+const metalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
+const roughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
 
 // Create the attribute and name it 'position'
 const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
 geometry2.setAttribute("position", positionsAttribute);
 const material2 = new THREE.MeshBasicMaterial({
-  map: texture,
+  map: colorTexture,
 });
 const mesh = new THREE.Mesh(geometry, material2);
 // mesh.position.x = 0.7;
