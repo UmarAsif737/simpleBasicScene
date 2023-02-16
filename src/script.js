@@ -77,7 +77,7 @@ geometry2.setAttribute("position", positionsAttribute);
 const material2 = new THREE.MeshBasicMaterial({
   map: colorTexture,
 });
-const mesh = new THREE.Mesh(geometry, material2);
+const mesh = new THREE.Mesh(geometry, material);
 // mesh.position.x = 0.7;
 // mesh.position.y = -0.6;
 // mesh.position.z = 1;
