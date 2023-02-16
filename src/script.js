@@ -40,15 +40,20 @@ const positionsArray = new Float32Array(count * 3 * 3);
 for (let i = 0; i < count * 3 * 3; i++) {
   positionsArray[i] = (Math.random() - 0.5) * 4;
 }
+const image = new Image();
+const texture = new THREE.Texture(image);
+image.addEventListener("load", () => {
+  texture.needsUpdate = true;
+});
+image.src = "/textures/door/color.jpg";
 
 // Create the attribute and name it 'position'
 const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
 geometry2.setAttribute("position", positionsAttribute);
 const material2 = new THREE.MeshBasicMaterial({
-  color: 0xffffff,
-  wireframe: true,
+  map: texture,
 });
-const mesh = new THREE.Mesh(geometry, material);
+const mesh = new THREE.Mesh(geometry, material2);
 // mesh.position.x = 0.7;
 // mesh.position.y = -0.6;
 // mesh.position.z = 1;
@@ -56,37 +61,8 @@ const mesh = new THREE.Mesh(geometry, material);
 // mesh.rotation.reorder("YXZ");
 // mesh.rotation.set(Math.PI / 4, Math.PI / 4, 0);
 scene.add(mesh);
-const parameters = {
-  spinY: () => {
-    gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 });
-  },
-  spinX: () => {
-    gsap.to(mesh.rotation, { duration: 1, x: mesh.rotation.x + Math.PI * 2 });
-  },
-  spinZ: () => {
-    gsap.to(mesh.rotation, { duration: 1, z: mesh.rotation.z + Math.PI * 2 });
-  },
-  spinAll: () => {
-    gsap.to(mesh.rotation, {
-      duration: 3,
-      x: mesh.rotation.x + Math.PI * 2,
-      y: mesh.rotation.y + Math.PI * 2,
-      z: mesh.rotation.z + Math.PI * 2,
-    });
-  },
-};
-gui.add(mesh.position, "y", -3, 3, 0.01).name("elevation");
-gui.add(mesh.position, "x", -3, 3, 0.01).name("Horizontal");
-gui.add(mesh.position, "z", -3, 3, 0.01).name("in and out");
-gui.add(mesh, "visible");
-gui.add(material, "wireframe");
-colors.map((color, i) =>
-  gui.addColor(mesh.material[i], "color").name(`face ${i + 1}`)
-);
-gui.add(parameters, "spinX");
-gui.add(parameters, "spinY");
-gui.add(parameters, "spinZ");
-gui.add(parameters, "spinAll");
+//
+
 // Camera
 const camera = new THREE.PerspectiveCamera(
   75,
