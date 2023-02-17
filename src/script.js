@@ -21,18 +21,32 @@ const sizes = {
 /**
  * Objects
  */
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+// Create a texture loader
+const textureLoader = new THREE.TextureLoader();
 
+// Load textures
+const sphereTexture = textureLoader.load("/textures/matcaps/1.png");
+const planeTexture = textureLoader.load("/textures/matcaps/1.png");
+const torusTexture = textureLoader.load("/textures/matcaps/1.png");
+
+// Create materials with textures
+const sphereMaterial = new THREE.MeshBasicMaterial({ map: sphereTexture });
+const planeMaterial = new THREE.MeshBasicMaterial({ map: planeTexture });
+const torusMaterial = new THREE.MeshBasicMaterial({ map: torusTexture });
 const sphereGeometry = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
-  material
+  sphereMaterial
 );
 sphereGeometry.position.x = -1.5;
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
+const plane = new THREE.Mesh(
+  new THREE.PlaneGeometry(1, 1),
+
+  sphereMaterial
+);
 const torus = new THREE.Mesh(
   new THREE.TorusGeometry(0.3, 0.15, 16, 32),
-  material
+  sphereMaterial
 );
 torus.position.x = 1.5;
 
