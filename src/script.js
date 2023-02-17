@@ -26,24 +26,35 @@ const textureLoader = new THREE.TextureLoader();
 
 // Load textures
 const sphereTexture = textureLoader.load("/textures/matcaps/3.png");
+/**
+ * Lights
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+// ...
 
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
+pointLight.position.x = 2;
+pointLight.position.y = 3;
+pointLight.position.z = 4;
+scene.add(pointLight);
+scene.add(ambientLight);
 // Create materials with textures
-const sphereMaterial = new THREE.MeshMatcapMaterial();
-sphereMaterial.matcap = sphereTexture;
+const material = new THREE.MeshLambertMaterial();
+
 const sphereGeometry = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
-  sphereMaterial
+  material
 );
 sphereGeometry.position.x = -1.5;
 
 const plane = new THREE.Mesh(
   new THREE.PlaneGeometry(1, 1),
 
-  sphereMaterial
+  material
 );
 const torus = new THREE.Mesh(
   new THREE.TorusGeometry(0.3, 0.15, 16, 32),
-  sphereMaterial
+  material
 );
 torus.position.x = 1.5;
 
