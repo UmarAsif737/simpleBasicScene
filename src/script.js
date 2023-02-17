@@ -1,5 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as lil from "lil-gui";
+
+// Debug
+const gui = new lil.GUI();
 
 /**
  * Base
@@ -39,9 +43,12 @@ pointLight.position.z = 4;
 scene.add(pointLight);
 scene.add(ambientLight);
 // Create materials with textures
-const material = new THREE.MeshPhongMaterial();
-material.shininess = 100;
-material.specular = new THREE.Color(0xff00000);
+// const material = new THREE.MeshPhongMaterial();
+// material.shininess = 100;
+// material.specular = new THREE.Color(0xff00000);
+const material = new THREE.MeshStandardMaterial();
+material.roughness = 0.65;
+material.metalness = 0.45;
 const sphereGeometry = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
   material
