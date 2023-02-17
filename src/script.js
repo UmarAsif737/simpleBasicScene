@@ -39,8 +39,9 @@ pointLight.position.z = 4;
 scene.add(pointLight);
 scene.add(ambientLight);
 // Create materials with textures
-const material = new THREE.MeshLambertMaterial();
-
+const material = new THREE.MeshPhongMaterial();
+material.shininess = 100;
+material.specular = new THREE.Color(0xff00000);
 const sphereGeometry = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
   material
