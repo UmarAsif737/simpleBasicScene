@@ -18,6 +18,25 @@ const sizes = {
   height: window.innerHeight,
 };
 
+/**
+ * Objects
+ */
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+const sphereGeometry = new THREE.Mesh(
+  new THREE.SphereGeometry(0.5, 16, 16),
+  material
+);
+sphereGeometry.position.x = -1.5;
+
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
+const torus = new THREE.Mesh(
+  new THREE.TorusGeometry(0.3, 0.15, 16, 32),
+  material
+);
+torus.position.x = 1.5;
+
+scene.add(sphereGeometry, plane, torus);
 window.addEventListener("resize", () => {
   // Update sizes
   sizes.width = window.innerWidth;
