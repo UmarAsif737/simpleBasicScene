@@ -25,14 +25,11 @@ const sizes = {
 const textureLoader = new THREE.TextureLoader();
 
 // Load textures
-const sphereTexture = textureLoader.load("/textures/matcaps/1.png");
-const planeTexture = textureLoader.load("/textures/matcaps/1.png");
-const torusTexture = textureLoader.load("/textures/matcaps/1.png");
+const sphereTexture = textureLoader.load("/textures/matcaps/3.png");
 
 // Create materials with textures
-const sphereMaterial = new THREE.MeshBasicMaterial({ map: sphereTexture });
-const planeMaterial = new THREE.MeshBasicMaterial({ map: planeTexture });
-const torusMaterial = new THREE.MeshBasicMaterial({ map: torusTexture });
+const sphereMaterial = new THREE.MeshMatcapMaterial();
+sphereMaterial.matcap = sphereTexture;
 const sphereGeometry = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
   sphereMaterial
