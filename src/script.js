@@ -29,7 +29,14 @@ const sizes = {
 const textureLoader = new THREE.TextureLoader();
 
 // Load textures
-const sphereTexture = textureLoader.load("/textures/matcaps/3.png");
+const door = textureLoader.load("/textures/door/color.jpg");
+const ambientOcclusion = textureLoader.load(
+  "/textures/door/ambientOcclusion.jpg"
+);
+const height = textureLoader.load("/textures/door/height.jpg");
+const normal = textureLoader.load("/textures/door/normal.jpg");
+const metalness = textureLoader.load("/textures/door/metalness.jpg");
+const roughness = textureLoader.load("/textures/door/roughness.jpg");
 /**
  * Lights
  */
@@ -47,25 +54,51 @@ scene.add(ambientLight);
 // material.shininess = 100;
 // material.specular = new THREE.Color(0xff00000);
 const material = new THREE.MeshStandardMaterial();
-material.roughness = 0.65;
-material.metalness = 0.45;
+material.roughness = 0;
+material.metalness = 1;
+
+material.map = door;
+material.aoMap = ambientOcclusion;
+material.aoMapIntensity = 1;
+
+material.displacementMap = height;
+material.displacementScale = 0.2;
+material.roughnessMap = roughness;
+material.metalnessMap = metalness;
+
+gui.add(material, "metalness", 0, 1, 0.0001);
+gui.add(material, "roughness", 0, 1, 0.0001);
+gui.add(material, "aoMapIntensity", 0, 10, 0.0001);
+gui.add(material, "displacementScale", 0, 1, 0.0001);
+
 const sphereGeometry = new THREE.Mesh(
-  new THREE.SphereGeometry(0.5, 16, 16),
+  new THREE.SphereGeometry(0.5, 64, 64),
   material
 );
 sphereGeometry.position.x = -1.5;
 
 const plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(1, 1),
+  new THREE.PlaneGeometry(1, 1, 100, 100),
 
   material
 );
 const torus = new THREE.Mesh(
-  new THREE.TorusGeometry(0.3, 0.15, 16, 32),
+  new THREE.TorusGeometry(0.3, 0.2, 64, 128),
   material
 );
 torus.position.x = 1.5;
-
+sphereGeometry.geometry.setAttribute(
+  "uv2",
+  new THREE.BufferAttribute(sphereGeometry.geometry.attributes.uv.array, 2)
+);
+plane.geometry.setAttribute(
+  "uv2",
+  new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2)
+);
+torus.geometry.setAttribute(
+  "uv2",
+  new THREE.BufferAttribute(torus.geometry.attributes.uv.array, 2)
+);
 scene.add(sphereGeometry, plane, torus);
 window.addEventListener("resize", () => {
   // Update sizes
