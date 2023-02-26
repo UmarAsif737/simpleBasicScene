@@ -37,6 +37,7 @@ const height = textureLoader.load("/textures/door/height.jpg");
 const normal = textureLoader.load("/textures/door/normal.jpg");
 const metalness = textureLoader.load("/textures/door/metalness.jpg");
 const roughness = textureLoader.load("/textures/door/roughness.jpg");
+const alpha = textureLoader.load("/textures/door/alpha.jpg");
 /**
  * Lights
  */
@@ -65,6 +66,9 @@ material.displacementMap = height;
 material.displacementScale = 0.2;
 material.roughnessMap = roughness;
 material.metalnessMap = metalness;
+material.normalMap = normal;
+material.transparent = true;
+material.alphaMap = alpha;
 
 gui.add(material, "metalness", 0, 1, 0.0001);
 gui.add(material, "roughness", 0, 1, 0.0001);
