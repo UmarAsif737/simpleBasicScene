@@ -66,27 +66,16 @@ const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 
 const sphericalGeometry = new THREE.SphereGeometry(1);
 
-const sphericalGeometry2 = new THREE.SphereGeometry(1, 1);
-
-const sphericalGeometry3 = new THREE.SphereGeometry(1, 1, 1);
-
 const torusGeometry = new THREE.TorusGeometry(1);
 
 const numebrofPieces = 100;
-const multiplier = 50;
+const multiplier = 30;
 for (let index = 0; index <= numebrofPieces; index++) {
   const Sphere = new THREE.Mesh(
     sphericalGeometry,
     materials[Math.floor(Math.random() * materials.length)]
   );
-  const Sphere2 = new THREE.Mesh(
-    sphericalGeometry2,
-    materials[Math.floor(Math.random() * materials.length)]
-  );
-  const Sphere3 = new THREE.Mesh(
-    sphericalGeometry3,
-    materials[Math.floor(Math.random() * materials.length)]
-  );
+
   const torus = new THREE.Mesh(
     torusGeometry,
     materials[Math.floor(Math.random() * materials.length)]
@@ -95,7 +84,7 @@ for (let index = 0; index <= numebrofPieces; index++) {
     cubeGeometry,
     materials[Math.floor(Math.random() * materials.length)]
   );
-  const objects = [Sphere, Sphere2, Sphere3, torus, cube];
+  const objects = [Sphere, torus, cube];
   objects.map((singleObj) => {
     singleObj.position.set(
       (Math.random() - 0.5) * multiplier,
@@ -103,7 +92,14 @@ for (let index = 0; index <= numebrofPieces; index++) {
 
       (Math.random() - 0.5) * multiplier
     );
+    singleObj.rotation.set(
+      Math.random() * Math.PI,
+      Math.random() * Math.PI,
 
+      Math.random() * Math.PI
+    );
+    const scale = Math.random();
+    singleObj.scale.set(scale, scale, scale);
     scene.add(singleObj);
   });
 }
