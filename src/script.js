@@ -15,12 +15,11 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
-const axesHelper = new THREE.AxesHelper();
-scene.add(axesHelper);
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
+const matCapTexture = textureLoader.load("/textures/matcaps/8.png");
 /**
  * Fonts
  */
@@ -38,13 +37,13 @@ fontLoader.load("/fonts/Bravely_Regular.json", (font) => {
     bevelOffset: 0,
     bevelSegments: 3,
   });
-  textGeometry.computeBoundingBox();
-  console.log(textGeometry.boundingBox);
-  const textMaterial = new THREE.MeshBasicMaterial();
+  textGeometry.center();
+  const material = new THREE.MeshMatcapMaterial({ matcap: matCapTexture });
 
-  const text = new THREE.Mesh(textGeometry, textMaterial);
+  const text = new THREE.Mesh(textGeometry, material);
   scene.add(text);
 });
+
 /**
  * Object
  */
