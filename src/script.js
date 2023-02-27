@@ -19,7 +19,26 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-const matCapTexture = textureLoader.load("/textures/matcaps/8.png");
+const matCapTexture1 = textureLoader.load("/textures/matcaps/1.png");
+const matCapTexture2 = textureLoader.load("/textures/matcaps/2.png");
+const matCapTexture3 = textureLoader.load("/textures/matcaps/3.png");
+const matCapTexture4 = textureLoader.load("/textures/matcaps/4.png");
+const matCapTexture5 = textureLoader.load("/textures/matcaps/5.png");
+const matCapTexture6 = textureLoader.load("/textures/matcaps/6.png");
+const matCapTexture7 = textureLoader.load("/textures/matcaps/7.png");
+const matCapTexture8 = textureLoader.load("/textures/matcaps/8.png");
+
+const materials = [
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture1 }),
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture2 }),
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture3 }),
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture4 }),
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture5 }),
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture6 }),
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture7 }),
+  new THREE.MeshMatcapMaterial({ matcap: matCapTexture8 }),
+];
+
 /**
  * Fonts
  */
@@ -38,12 +57,56 @@ fontLoader.load("/fonts/Bravely_Regular.json", (font) => {
     bevelSegments: 3,
   });
   textGeometry.center();
-  const material = new THREE.MeshMatcapMaterial({ matcap: matCapTexture });
 
-  const text = new THREE.Mesh(textGeometry, material);
+  const text = new THREE.Mesh(textGeometry, materials[7]);
   scene.add(text);
 });
 
+const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+
+const sphericalGeometry = new THREE.SphereGeometry(1);
+
+const sphericalGeometry2 = new THREE.SphereGeometry(1, 1);
+
+const sphericalGeometry3 = new THREE.SphereGeometry(1, 1, 1);
+
+const torusGeometry = new THREE.TorusGeometry(1);
+
+const numebrofPieces = 100;
+const multiplier = 50;
+for (let index = 0; index <= numebrofPieces; index++) {
+  const Sphere = new THREE.Mesh(
+    sphericalGeometry,
+    materials[Math.floor(Math.random() * materials.length)]
+  );
+  const Sphere2 = new THREE.Mesh(
+    sphericalGeometry2,
+    materials[Math.floor(Math.random() * materials.length)]
+  );
+  const Sphere3 = new THREE.Mesh(
+    sphericalGeometry3,
+    materials[Math.floor(Math.random() * materials.length)]
+  );
+  const torus = new THREE.Mesh(
+    torusGeometry,
+    materials[Math.floor(Math.random() * materials.length)]
+  );
+  const cube = new THREE.Mesh(
+    cubeGeometry,
+    materials[Math.floor(Math.random() * materials.length)]
+  );
+  const objects = [Sphere, Sphere2, Sphere3, torus, cube];
+  objects.map((singleObj) => {
+    singleObj.position.set(
+      (Math.random() - 0.5) * multiplier,
+      (Math.random() - 0.5) * multiplier,
+
+      (Math.random() - 0.5) * multiplier
+    );
+
+    scene.add(singleObj);
+  });
+}
 /**
  * Object
  */
