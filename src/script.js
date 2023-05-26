@@ -67,35 +67,51 @@ gui.add(guiControls, "enableHoles").onChange((value) => {
 });
 
 function makeHole(event) {
-  const mouse = new THREE.Vector2();
-  const raycaster = new THREE.Raycaster();
+  if (guiControls.enableHoles) {
+    // Get the position of the mouse click relative to the canvas
+    const canvasBounds = canvas.getBoundingClientRect();
+    const mouse = {
+      x: ((event.clientX - canvasBounds.left) / canvasBounds.width) * 2 - 1,
+      y: -((event.clientY - canvasBounds.top) / canvasBounds.height) * 2 + 1,
+    };
 
-  // Calculate normalized device coordinates
-  mouse.x = (event.clientX / sizes.width) * 2 - 1;
-  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+    // Create a raycaster from the mouse position
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, camera);
 
-  // Update the picking ray with the camera and mouse position
-  raycaster.setFromCamera(mouse, camera);
+    // Find intersecting objects with the raycaster
+    const intersects = raycaster.intersectObjects(scene.children, true);
 
-  // Check for intersections
-  const intersects = raycaster.intersectObject(cube);
+    // Check if the cube is intersected
+    for (const intersect of intersects) {
+      if (intersect.object === cube) {
+        // Calculate the height and position of the hole
+        const holeHeight = cube.scale.y;
+        const holePosition = new THREE.Vector3()
+          .copy(intersect.point)
+          .add(cube.position);
 
-  if (intersects.length > 0) {
-    // Make a hole in the cube
-    const hole = new THREE.CylinderGeometry(0.2, 0.2, 0.1, 32);
-    const holeMesh = new THREE.Mesh(hole);
-    holeMesh.position.copy(intersects[0].point);
-    holeMesh.position.y += 0.05;
-    holeMesh.rotation.x = Math.PI / 2;
+        // Create a hole in the cube's geometry
+        const holeGeometry = new THREE.CylinderGeometry(
+          0.2,
+          0.2,
+          holeHeight / 9,
+          32
+        );
+        const holeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        const hole = new THREE.Mesh(holeGeometry, holeMaterial);
 
-    const mergedGeometry = new THREE.Geometry();
-    mergedGeometry.merge(cube.geometry);
-    mergedGeometry.merge(holeMesh.geometry);
+        // Position the hole slightly downward from the middle of the cube
+        holePosition.y -= holeHeight / 20;
+        hole.position.copy(holePosition);
 
-    cube.geometry.dispose(); // Clean up the previous geometry
-    cube.geometry = mergedGeometry;
-    cube.geometry.computeBoundingSphere();
-    cube.geometry.computeVertexNormals();
+        // Align the hole with the cube's orientation
+        hole.quaternion.copy(cube.quaternion);
+
+        scene.add(hole);
+        break;
+      }
+    }
   }
 }
 
