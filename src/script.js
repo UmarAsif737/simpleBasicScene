@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "lil-gui";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 /**
  * Base
  */
@@ -15,103 +13,25 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
-/**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader();
-const matCapTexture1 = textureLoader.load("/textures/matcaps/1.png");
-const matCapTexture2 = textureLoader.load("/textures/matcaps/2.png");
-const matCapTexture3 = textureLoader.load("/textures/matcaps/3.png");
-const matCapTexture4 = textureLoader.load("/textures/matcaps/4.png");
-const matCapTexture5 = textureLoader.load("/textures/matcaps/5.png");
-const matCapTexture6 = textureLoader.load("/textures/matcaps/6.png");
-const matCapTexture7 = textureLoader.load("/textures/matcaps/7.png");
-const matCapTexture8 = textureLoader.load("/textures/matcaps/8.png");
+const image = new Image();
+const texture = new THREE.Texture(image);
+image.addEventListener("load", () => {
+  texture.needsUpdate = true;
+});
+image.src = "/textures/woddtecture1.jpg";
 
-const materials = [
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture1 }),
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture2 }),
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture3 }),
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture4 }),
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture5 }),
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture6 }),
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture7 }),
-  new THREE.MeshMatcapMaterial({ matcap: matCapTexture8 }),
-];
-
+// Create the attribute and name it 'position'
+const material2 = new THREE.MeshBasicMaterial({
+  map: texture,
+});
 /**
  * Fonts
  */
-const fontLoader = new FontLoader();
+const cubeGeometry = new THREE.BoxGeometry(3, 0.1, 1.5);
 
-fontLoader.load("/fonts/Bravely_Regular.json", (font) => {
-  const textGeometry = new TextGeometry("UMAR ASIF", {
-    font: font,
-    size: 0.5,
-    height: 0.2,
-    curveSegments: 4,
-    bevelEnabled: true,
-    bevelThickness: 0.03,
-    bevelSize: 0.02,
-    bevelOffset: 0,
-    bevelSegments: 3,
-  });
-  textGeometry.center();
+const cube = new THREE.Mesh(cubeGeometry, material2);
 
-  const text = new THREE.Mesh(textGeometry, materials[7]);
-  scene.add(text);
-});
-
-const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-
-const sphericalGeometry = new THREE.SphereGeometry(1);
-
-const torusGeometry = new THREE.TorusGeometry(1);
-
-const numebrofPieces = 100;
-const multiplier = 30;
-for (let index = 0; index <= numebrofPieces; index++) {
-  const Sphere = new THREE.Mesh(
-    sphericalGeometry,
-    materials[Math.floor(Math.random() * materials.length)]
-  );
-
-  const torus = new THREE.Mesh(
-    torusGeometry,
-    materials[Math.floor(Math.random() * materials.length)]
-  );
-  const cube = new THREE.Mesh(
-    cubeGeometry,
-    materials[Math.floor(Math.random() * materials.length)]
-  );
-  const objects = [Sphere, torus, cube];
-  objects.map((singleObj) => {
-    singleObj.position.set(
-      (Math.random() - 0.5) * multiplier,
-      (Math.random() - 0.5) * multiplier,
-
-      (Math.random() - 0.5) * multiplier
-    );
-    singleObj.rotation.set(
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-
-      Math.random() * Math.PI
-    );
-    const scale = Math.random();
-    singleObj.scale.set(scale, scale, scale);
-    scene.add(singleObj);
-  });
-}
-/**
- * Object
- */
-// const cube = new THREE.Mesh(
-//   new THREE.BoxGeometry(1, 1, 1),
-//   new THREE.MeshBasicMaterial()
-// );
-
-// scene.add(cube);
+scene.add(cube);
 
 /**
  * Sizes
@@ -145,9 +65,10 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.x = 1;
+camera.position.x = 3;
 camera.position.y = 1;
-camera.position.z = 2;
+camera.position.z = 1.5;
+
 scene.add(camera);
 
 // Controls
